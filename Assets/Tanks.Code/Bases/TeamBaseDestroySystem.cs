@@ -6,29 +6,42 @@
     using UnityEngine;
 
     [CreateAssetMenu(menuName = "ECS/Systems/" + nameof(TeamBaseDestroySystem))]
-    public sealed class TeamBaseDestroySystem : UpdateSystem {
+    public sealed class TeamBaseDestroySystem : ISystem {
         public Color destroyedColor = Color.black;
 
         private Filter destroyedBases;
 
-        public override void OnAwake() {
-            destroyedBases = World.Filter.With<TeamBase>().With<InTeam>().With<IsDeadMarker>().Build();
+        private Stash<InTeam> _inTeam;
+        private Stash<LosingTeamMarker> _losingTeamMarker;
+        private Stash<TeamBase> _teamBases;
+
+        public World World { get; set; }
+
+        public void Dispose()
+        {
+
         }
 
-        public override void OnUpdate(float deltaTime) {
+        public void OnAwake() {
+            destroyedBases = World.Filter.With<TeamBase>().With<InTeam>().With<IsDeadMarker>().Build();
+
+            _inTeam = World.GetStash<InTeam>();
+            _losingTeamMarker = World.GetStash<LosingTeamMarker>();
+            _teamBases = World.GetStash<TeamBase>();
+        }
+
+        public void OnUpdate(float deltaTime) {
             foreach (Entity ent in destroyedBases) {
-                Entity team = ent.GetComponent<InTeam>().team;
-                if (team.Has<LosingTeamMarker>()) {
+                var teamEnt = _inTeam.Get(ent).team;
+
+                if (_losingTeamMarker.Has(teamEnt)) {
                     continue;
                 }
 
-                team.AddComponent<LosingTeamMarker>();
-                ent.GetComponent<TeamBase>().view.SetColor(destroyedColor);
-            }
-        }
+                _losingTeamMarker.Set(teamEnt);
 
-        public static TeamBaseDestroySystem Create() {
-            return CreateInstance<TeamBaseDestroySystem>();
+                _teamBases.Get(ent).view.SetColor(destroyedColor);
+            }
         }
     }
 }

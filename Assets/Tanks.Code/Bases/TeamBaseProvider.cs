@@ -11,7 +11,9 @@
 
         protected override void Initialize() {
             base.Initialize();
-            Entity.AddComponent<InTeam>().team = team.Entity;
+            var stash = Entity.GetWorld().GetStash<InTeam>();
+
+            stash.Add(Entity).team = team.Entity;
         }
     }
 

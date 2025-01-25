@@ -16,9 +16,5 @@
                 ent.AddComponent<MoveDirection>();
             }
         }
-
-        public static TankMovementInitSystem Create() {
-            return CreateInstance<TankMovementInitSystem>();
-        }
     }
 }

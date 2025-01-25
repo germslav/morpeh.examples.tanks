@@ -1,25 +1,47 @@
-﻿namespace Tanks.Healthcare {
+﻿namespace Tanks.Healthcare
+{
     using Scellecs.Morpeh;
-    using Scellecs.Morpeh.Helpers;
-    using UnityEngine;
 
-    [CreateAssetMenu(menuName = "ECS/Systems/" + nameof(DamageSystem))]
-    public sealed class DamageSystem : SimpleUpdateSystem<Health, DamageEvent> {
-        protected override void Process(Entity ent, ref Health health, ref DamageEvent damage, in float dt) {
-            if (damage.amount <= 0) {
-                return;
-            }
+    public sealed class DamageSystem : ISystem
+    {
+        public World World { get ; set; }
 
-            health.health -= damage.amount;
-            if (health.health > 0) {
-                return;
-            }
+        Filter _damagedHealth;
+        Stash<Health> _healths;
+        Stash<DamageEvent> _damageEvents;
+        Stash<IsDeadMarker> _deadMarkers;
 
-            ent.SetComponent(new IsDeadMarker());
+        public void OnAwake()
+        {
+            _damagedHealth = World.Filter.With<Health>().With<DamageEvent>().Build();
+
+            _healths = World.GetStash<Health>();
+            _damageEvents = World.GetStash<DamageEvent>();
+            _deadMarkers = World.GetStash<IsDeadMarker>();
         }
 
-        public static DamageSystem Create() {
-            return CreateInstance<DamageSystem>();
+        public void Dispose() {}
+
+        public void OnUpdate(float deltaTime)
+        {
+            foreach(var ent in _damagedHealth)
+            {
+                var damage = _damageEvents.Get(ent);
+                var health = _healths.Get(ent);
+
+                if (damage.amount <= 0)
+                {
+                    return;
+                }
+
+                health.health -= damage.amount;
+                if (health.health > 0)
+                {
+                    return;
+                }
+
+                _deadMarkers.Add(ent);
+            }
         }
     }
 }

@@ -1,16 +1,30 @@
 ﻿namespace Tanks.Collisions {
     using Scellecs.Morpeh;
-    using Scellecs.Morpeh.Helpers;
+
     using UnityEngine;
 
-    [CreateAssetMenu(menuName = "ECS/Systems/" + nameof(CollisionCleanSystem))]
-    public sealed class CollisionCleanSystem : SimpleLateUpdateSystem<CollisionEvent> {
-        protected override void Process(Entity ent, ref CollisionEvent evt, in float dt) {
-            World.RemoveEntity(ent);
+    public sealed class CollisionCleanSystem : ISystem
+    {
+        public World World { get ; set; }
+
+        Filter _filter;
+
+        public void Dispose()
+        {
+            _filter = World.Filter.With<CollisionEvent>().Build();
         }
 
-        public static CollisionCleanSystem Create() {
-            return CreateInstance<CollisionCleanSystem>();
+        public void OnAwake()
+        {
+
+        }
+
+        public void OnUpdate(float deltaTime)
+        {
+            foreach(var ent in _filter)
+            {
+                World.RemoveEntity(ent);
+            }
         }
     }
 }

@@ -1,24 +1,34 @@
 ﻿namespace Tanks.Teams {
     using Scellecs.Morpeh;
-    using Scellecs.Morpeh.Systems;
+
     using UnityEngine;
     using UtilSystems;
+    using static Tanks.UtilSystems.TextInWorldSystem;
 
     [CreateAssetMenu(menuName = "ECS/Systems/" + nameof(WinDetectSystem))]
-    public sealed class WinDetectSystem : UpdateSystem {
+    public sealed class WinDetectSystem : ISystem {
         public float winTimeScale = 0.1f;
-        public TextInWorldSystem.Request winMessageRequest;
+        public Request winMessageRequest;
 
         private Filter nonLosingTeams;
-        private Filter winMarkers;
+        private Filter winMarkersFilter;
+        private Stash<Team> _teams;
+        private Stash<Request> _requests;
+        private Stash<WinMarker> _winMarkers;
 
-        public override void OnAwake() {
+        public World World { get; set; }
+
+        public void OnAwake() {
             nonLosingTeams = World.Filter.With<Team>().Without<LosingTeamMarker>().Build();
-            winMarkers = World.Filter.With<WinMarker>().Build();
+            winMarkersFilter = World.Filter.With<WinMarker>().Build();
+
+            _winMarkers = World.GetStash<WinMarker>();
+            _requests = World.GetStash<Request>();
+            _teams = World.GetStash<Team>();
         }
 
-        public override void OnUpdate(float deltaTime) {
-            if (!winMarkers.IsEmpty()) {
+        public void OnUpdate(float deltaTime) {
+            if (!winMarkersFilter.IsEmpty()) {
                 return;
             }
 
@@ -26,23 +36,29 @@
                 return;
             }
 
-            ref Team winTeam = ref nonLosingTeams.First().GetComponent<Team>();
+            ref Team winTeam = ref _teams.Get(nonLosingTeams.First());
             var text = $"Team {winTeam.name} wins!";
             Debug.Log(text);
 
             TextInWorldSystem.Request request = winMessageRequest;
             request.color = winTeam.color;
             request.text = text;
-            World.CreateEntity().SetComponent(request);
+
+            var textReq = World.CreateEntity();
+            _requests.Add(textReq);
 
             Time.timeScale = winTimeScale;
-            World.CreateEntity().AddComponent<WinMarker>();
-        }
 
-        public static WinDetectSystem Create() {
-            return CreateInstance<WinDetectSystem>();
+            var winMakers = World.CreateEntity();
+            _winMarkers.Add(winMakers);
         }
 
         public struct WinMarker : IComponent { }
+
+
+        public void Dispose()
+        {
+
+        }
     }
 }

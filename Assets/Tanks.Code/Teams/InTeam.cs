@@ -9,8 +9,11 @@
 
     public static class TeamExtensions {
         public static bool InSameTeam(this Entity first, Entity second) {
-            ref InTeam firstInTeam = ref first.GetComponent<InTeam>(out bool firstHasTeam);
-            ref InTeam secondInTeam = ref second.GetComponent<InTeam>(out bool secondHasTeam);
+            var world = first.GetWorld();
+            var stash = world.GetStash<InTeam>();
+
+            ref InTeam firstInTeam = ref stash.Get(first, out bool firstHasTeam);
+            ref InTeam secondInTeam = ref stash.Get(second, out bool secondHasTeam);
             if (!firstHasTeam || !secondHasTeam) {
                 return false;
             }

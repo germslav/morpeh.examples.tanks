@@ -1,12 +1,11 @@
 ﻿namespace Tanks.Healthcare {
     using GameInput;
     using Scellecs.Morpeh;
-    using Scellecs.Morpeh.Helpers;
+
     using Scellecs.Morpeh.Systems;
     using Scores;
     using UnityEngine;
 
-    [CreateAssetMenu(menuName = "ECS/Systems/" + nameof(TankDestroySystem))]
     public sealed class TankDestroySystem : UpdateSystem {
         private Filter destroyedTanks;
 
@@ -32,7 +31,7 @@
         private static void IncreaseStatForKiller(Entity ent) {
             ref DamageEvent damageEvent = ref ent.GetComponent<DamageEvent>(out bool isDamaged);
             if (isDamaged) {
-                damageEvent.dealer?.AddComponent<OneMoreKillEvent>();
+                damageEvent.dealer.AddComponent<OneMoreKillEvent>();
             }
         }
 

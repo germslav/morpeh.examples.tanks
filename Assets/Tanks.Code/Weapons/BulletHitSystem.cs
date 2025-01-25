@@ -2,34 +2,59 @@
     using Collisions;
     using Healthcare;
     using Scellecs.Morpeh;
-    using Scellecs.Morpeh.Helpers;
+
     using Teams;
     using UnityEngine;
 
-    [CreateAssetMenu(menuName = "ECS/Systems/" + nameof(BulletHitSystem))]
-    public sealed class BulletHitSystem : SimpleFixedUpdateSystem<CollisionEvent> {
-        protected override void Process(Entity ent, ref CollisionEvent evt, in float dt) {
-            Entity bulletEntity = evt.first;
-            ref Bullet bullet = ref bulletEntity.GetComponent<Bullet>(out bool isBullet);
-            if (!isBullet) {
-                return;
-            }
+    public sealed class BulletHitSystem : IFixedSystem
+    {
+        public World World { get; set; }
 
-            if (evt.second != null && !evt.second.InSameTeam(bullet.shooter)) {
-                evt.second.SetComponent(new DamageEvent {
-                        hitPosition = evt.collision?.GetContact(0).point,
-                        amount = bullet.config.damage,
-                        dealer = bullet.shooter,
-                });
-            }
+        private Filter _filter;
+        private Stash<CollisionEvent> _collisions;
+        private Stash<Bullet> _bullets;
+        private Stash<DamageEvent> _damageEvents;
 
-            Destroy(bullet.body.gameObject);
-            bulletEntity.RemoveComponent<Bullet>();
-            World.RemoveEntity(bulletEntity);
+        public void Dispose()
+        {
+            throw new System.NotImplementedException();
         }
 
-        public static BulletHitSystem Create() {
-            return CreateInstance<BulletHitSystem>();
+        public void OnAwake()
+        {
+            _filter = World.Filter.With<CollisionEvent>().Build();
+
+            _collisions = World.GetStash<CollisionEvent>();
+            _bullets = World.GetStash<Bullet>();
+            _damageEvents = World.GetStash<DamageEvent>();
+        }
+
+        public void OnUpdate(float deltaTime)
+        {
+            foreach(var ent in _filter)
+            {
+                ref var colEv = ref _collisions.Get(ent);
+                Entity bulletEntity = colEv.first;
+                ref Bullet bullet = ref _bullets.Get(bulletEntity, out bool isBullet);
+                if (!isBullet)
+                {
+                    return;
+                }
+
+                if (colEv.second != null && !colEv.second.InSameTeam(bullet.shooter))
+                {
+                    _damageEvents.Set(colEv.second, new DamageEvent
+                    {
+                        hitPosition = colEv.collision?.GetContact(0).point,
+                        amount = bullet.config.damage,
+                        dealer = bullet.shooter,
+                    });                
+                }
+
+                GameObject.Destroy(bullet.body.gameObject);
+                _bullets.Remove(bulletEntity);
+                World.RemoveEntity(bulletEntity);
+            }
         }
     }
 }

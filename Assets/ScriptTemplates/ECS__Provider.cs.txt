@@ -1,4 +1,8 @@
-﻿using Morpeh;
+﻿using Scellecs.Morpeh.Providers;
+using Unity.IL2CPP.CompilerServices;
 
-public class #SCRIPTNAME# : MonoProvider<{YOUR_COMPONENT}> {
+[Il2CppSetOption(Option.NullChecks, false)]
+[Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+[Il2CppSetOption(Option.DivideByZeroChecks, false)]
+public sealed class #SCRIPTNAME# : MonoProvider<{YOUR_COMPONENT}> {
 }

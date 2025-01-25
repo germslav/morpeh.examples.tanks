@@ -1,7 +1,7 @@
 ﻿namespace Tanks.Scores {
     using GameInput;
+    using Helpers;
     using Scellecs.Morpeh;
-    using Scellecs.Morpeh.Helpers;
     using Scellecs.Morpeh.Systems;
     using Unity.IL2CPP.CompilerServices;
     using UnityEngine;
@@ -49,11 +49,7 @@
                 World.CreateEntity().SetComponent(request);
             }
 
-            killEvents.RemoveComponentForAll<OneMoreKillEvent>();
-        }
-
-        public static ScoreSystem Create() {
-            return CreateInstance<ScoreSystem>();
+            killEvents.RemoveComponentForAll<OneMoreKillEvent>(World);
         }
     }
 }

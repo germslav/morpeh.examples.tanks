@@ -36,7 +36,7 @@
             evt.first = listener;
 
             var otherDetector = other.gameObject.GetComponent<CollisionDetector>();
-            evt.second = otherDetector != null ? otherDetector.listener : null;
+            evt.second = otherDetector != null ? otherDetector.listener : default;
         }
     }
 }

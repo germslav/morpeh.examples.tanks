@@ -4,7 +4,6 @@
     using Scellecs.Morpeh.Providers;
     using UnityEngine;
 
-    [AddComponentMenu("Tanks/Team")]
     public sealed class TeamProvider : MonoProvider<Team> { }
 
     [Serializable]

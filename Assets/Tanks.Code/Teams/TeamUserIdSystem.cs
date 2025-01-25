@@ -1,4 +1,6 @@
-﻿namespace Tanks.Teams {
+﻿using System.Runtime.InteropServices;
+
+namespace Tanks.Teams {
     using System;
     using GameInput;
     using Scellecs.Morpeh;
@@ -10,47 +12,61 @@
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     [CreateAssetMenu(menuName = "ECS/Systems/" + nameof(TeamUserIdSystem))]
-    public sealed class TeamUserIdSystem : LateUpdateSystem {
+    public sealed class TeamUserIdSystem : ILateSystem 
+    {
         public TextMesh userIdTextPrefab;
         private Filter tanksToDisplay;
+        private Stash<UserIdText> _userIdTexts;
+        private Stash<ControlledByUser> _controlledByUser;
+        private Stash<GameUser> _gameUser;
+        private Stash<Tank> _tanks;
+        private Stash<InTeam> _inTeam;
+        private Stash<Team> _teams;
+        public World World { get; set; }
 
-        public override void OnAwake() {
-            World.GetStash<UserIdText>().AsDisposable();
+        public void OnAwake() {
+            _userIdTexts = World.GetStash<UserIdText>().AsDisposable();
+            _controlledByUser = World.GetStash<ControlledByUser>();
+            _gameUser = World.GetStash<GameUser>().AsDisposable();
+            _tanks = World.GetStash<Tank>();
+            _inTeam = World.GetStash<InTeam>();
+            _teams = World.GetStash<Team>();
+
             tanksToDisplay = World.Filter.With<Tank>().With<ControlledByUser>().Without<UserIdText>().Build();
         }
 
-        public override void OnUpdate(float deltaTime) {
+        public void OnUpdate(float deltaTime) {
             foreach (Entity tankEntity in tanksToDisplay) {
-                Entity userEntity = tankEntity.GetComponent<ControlledByUser>().user;
-                if (userEntity.IsNullOrDisposed()) {
+                Entity userEntity = _controlledByUser.Get(tankEntity).user;
+                if (World.IsDisposed(userEntity)) {
                     continue;
                 }
 
-                ref Tank tank = ref tankEntity.GetComponent<Tank>();
-                ref GameUser user = ref userEntity.GetComponent<GameUser>();
+                ref Tank tank = ref _tanks.Get(tankEntity);
+                ref GameUser user = ref _gameUser.Get(userEntity);
 
-                ref UserIdText userIdText = ref tankEntity.AddComponent<UserIdText>();
-                userIdText.text = Instantiate(userIdTextPrefab, tank.body.transform);
+                ref UserIdText userIdText = ref _userIdTexts.Add(tankEntity);
+                userIdText.text = GameObject.Instantiate(userIdTextPrefab, tank.body.transform);
                 userIdText.text.GetComponent<Renderer>().sortingOrder = 10;
                 userIdText.text.transform.localPosition = tank.userTextOffset;
                 userIdText.text.text = $"#{user.id.ToString()}";
                 userIdText.text.color = Color.white;
 
-                ref InTeam inTeam = ref tankEntity.GetComponent<InTeam>(out bool isInTeam);
+                ref InTeam inTeam = ref _inTeam.Get(tankEntity, out bool isInTeam);
                 if (isInTeam) {
-                    userIdText.text.color = inTeam.team.GetComponent<Team>().color;
+                    userIdText.text.color = _teams.Get(inTeam.team).color;
                 }
             }
         }
 
-        public static TeamUserIdSystem Create() => CreateInstance<TeamUserIdSystem>();
+        public void Dispose() {}
 
         private struct UserIdText : IComponent, IDisposable {
             public TextMesh text;
 
             public readonly void Dispose() {
                 if (text != null) {
-                    Destroy(text.gameObject);
+                    GameObject.Destroy(text.gameObject);
                 }
             }
         }

@@ -1,28 +1,32 @@
 ﻿namespace Tanks.Teams {
     using GameInput;
     using Scellecs.Morpeh;
-    using Scellecs.Morpeh.Systems;
-    using UnityEngine;
 
-    [CreateAssetMenu(menuName = "ECS/Systems/" + nameof(GameUserBalanceTeamSystem))]
-    public sealed class GameUserBalanceTeamSystem : UpdateSystem {
+    public sealed class GameUserBalanceTeamSystem : ISystem
+    {
         private Filter nonTeamUsers;
         private Filter teams;
+        private Stash<Team> _teamStash;
+        private Stash<InTeam> _inTeamStash;
+        public World World { get; set; }
 
-        public override void OnAwake() {
+        public void OnAwake() {
             teams = World.Filter.With<Team>().Build();
             nonTeamUsers = World.Filter.With<GameUser>().Without<InTeam>().Build();
+
+            _teamStash = World.GetStash<Team>();
+            _inTeamStash = World.GetStash<InTeam>();
         }
 
-        public override void OnUpdate(float deltaTime) {
+        public void OnUpdate(float deltaTime) {
             if (nonTeamUsers.IsEmpty() || teams.IsEmpty()) {
                 return;
             }
 
             foreach (Entity ent in nonTeamUsers) {
                 Entity weakTeamEntity = GetWeakTeam();
-                ref Team weakTeam = ref weakTeamEntity.GetComponent<Team>();
-                ent.SetComponent(new InTeam {
+                ref Team weakTeam = ref _teamStash.Get(weakTeamEntity);
+                _inTeamStash.Set(ent, new InTeam {
                         team = weakTeamEntity,
                 });
 
@@ -31,11 +35,11 @@
         }
 
         private Entity GetWeakTeam() {
-            Entity weakTeam = null;
+            Entity weakTeam = default;
             var weakTeamUserCount = int.MaxValue;
 
             foreach (Entity entity in teams) {
-                ref Team team = ref entity.GetComponent<Team>();
+                ref Team team = ref _teamStash.Get(entity);
                 if (team.userCount < weakTeamUserCount) {
                     weakTeam = entity;
                     weakTeamUserCount = team.userCount;
@@ -45,8 +49,6 @@
             return weakTeam;
         }
 
-        public static GameUserBalanceTeamSystem Create() {
-            return CreateInstance<GameUserBalanceTeamSystem>();
-        }
+        public void Dispose() {}
     }
 }

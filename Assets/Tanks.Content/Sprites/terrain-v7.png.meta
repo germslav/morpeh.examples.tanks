@@ -1419,7 +1419,7 @@ TextureImporter:
       213: 3381484026850280957
     second: terrain-v7_89
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 13
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -1436,9 +1436,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -1449,7 +1452,7 @@ TextureImporter:
     serializedVersion: 2
     filterMode: 0
     aniso: 2
-    mipBias: -100
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 0
@@ -1470,9 +1473,15 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -1484,6 +1493,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -1496,6 +1506,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -1508,6 +1519,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -1520,6 +1532,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -1532,6 +1545,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
@@ -3023,7 +3037,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 03973fcad725b3510800000000000000
-      internalID: 1529907198148442416
+      internalID: 546688158667807692
       vertices: []
       indices: 
       edges: []
@@ -3044,7 +3058,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: acfe87047c804bd80800000000000000
-      internalID: -8235948166680612918
+      internalID: 4967057070165308129
       vertices: []
       indices: 
       edges: []
@@ -3065,7 +3079,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 5e70dae18f5331590800000000000000
-      internalID: -7704755197717968923
+      internalID: -7861108705689059209
       vertices: []
       indices: 
       edges: []
@@ -3086,7 +3100,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 96468e7228b20ebe0800000000000000
-      internalID: -1450111241998015383
+      internalID: -3475504434138714213
       vertices: []
       indices: 
       edges: []
@@ -3107,7 +3121,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: de0e65dbc5046ef80800000000000000
-      internalID: -8077698114584649491
+      internalID: 8258399717919042784
       vertices: []
       indices: 
       edges: []
@@ -3128,7 +3142,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 98a6ecf20eb5fd700800000000000000
-      internalID: 567273096504830601
+      internalID: -1251656716411263141
       vertices: []
       indices: 
       edges: []
@@ -3149,7 +3163,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: eaf7b738b6107c820800000000000000
-      internalID: 2938318843161575342
+      internalID: 1720555918416573648
       vertices: []
       indices: 
       edges: []
@@ -3170,7 +3184,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: f84fc90f3cbfc1e00800000000000000
-      internalID: 1016964434852902031
+      internalID: 3659437790157227325
       vertices: []
       indices: 
       edges: []
@@ -3191,7 +3205,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 7a281da7d21a69f30800000000000000
-      internalID: 4582026887602209447
+      internalID: 5852618973792327231
       vertices: []
       indices: 
       edges: []
@@ -3212,7 +3226,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 66aefa53093b26f50800000000000000
-      internalID: 6873253413278181990
+      internalID: -2484338043122878103
       vertices: []
       indices: 
       edges: []
@@ -3233,7 +3247,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 39fdd245032e5e7c0800000000000000
-      internalID: -4042576393296552045
+      internalID: -6339620064780017832
       vertices: []
       indices: 
       edges: []
@@ -3254,7 +3268,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 4ba3404fe646eb050800000000000000
-      internalID: 5818198196312357556
+      internalID: -1171312028871670329
       vertices: []
       indices: 
       edges: []
@@ -3275,7 +3289,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: c124d306587899c20800000000000000
-      internalID: 3213748816020587036
+      internalID: 84855461687635288
       vertices: []
       indices: 
       edges: []
@@ -3296,7 +3310,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 5575502490f384140800000000000000
-      internalID: 4704079119783384917
+      internalID: 7297745909106340943
       vertices: []
       indices: 
       edges: []
@@ -3317,7 +3331,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: f6fee5da4bc9bfb40800000000000000
-      internalID: 5475142071815696239
+      internalID: -8867776766553735712
       vertices: []
       indices: 
       edges: []
@@ -3338,7 +3352,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: f6164af34b0bc82d0800000000000000
-      internalID: -3275048540796853905
+      internalID: 5655869534468243974
       vertices: []
       indices: 
       edges: []
@@ -3359,7 +3373,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: d1a3c576dc17239f0800000000000000
-      internalID: -490204282413630947
+      internalID: -7147071321167599768
       vertices: []
       indices: 
       edges: []
@@ -3380,7 +3394,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: fc0015e2a5c64a7b0800000000000000
-      internalID: -5213923334008274737
+      internalID: 2310814012901657997
       vertices: []
       indices: 
       edges: []
@@ -3401,7 +3415,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 4bbd42cf464948870800000000000000
-      internalID: 8684229142925073332
+      internalID: 466830440849115804
       vertices: []
       indices: 
       edges: []
@@ -3422,7 +3436,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: df5811a7ec17dee20800000000000000
-      internalID: 3381484026850280957
+      internalID: 2555467480493507422
       vertices: []
       indices: 
       edges: []
@@ -3437,9 +3451,99 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-  spritePackingTag: 
+    nameFileIdTable:
+      terrain-v7_0: 546688158667807692
+      terrain-v7_1: 4967057070165308129
+      terrain-v7_10: -4150989803042826669
+      terrain-v7_11: 2374098331668270386
+      terrain-v7_12: -8667501494397535101
+      terrain-v7_13: 3506734969113880329
+      terrain-v7_14: -1956249797975123568
+      terrain-v7_15: -5828127319931189251
+      terrain-v7_16: -4560367954191509980
+      terrain-v7_17: -8634129068215949170
+      terrain-v7_18: 3496122062022799372
+      terrain-v7_19: 4391016809744338544
+      terrain-v7_2: -7861108705689059209
+      terrain-v7_20: 3455809560569372305
+      terrain-v7_21: -6273223499669289382
+      terrain-v7_22: -8519629473469009956
+      terrain-v7_23: 1503311150461852213
+      terrain-v7_24: 3352270341890240527
+      terrain-v7_25: 4395308835312632453
+      terrain-v7_26: -425337026035280316
+      terrain-v7_27: 8841545058161858055
+      terrain-v7_28: 2176902961198533651
+      terrain-v7_29: 1720555918416573648
+      terrain-v7_3: -3475504434138714213
+      terrain-v7_30: 3659437790157227325
+      terrain-v7_31: 5852618973792327231
+      terrain-v7_32: -2484338043122878103
+      terrain-v7_33: -6339620064780017832
+      terrain-v7_34: -1171312028871670329
+      terrain-v7_35: -4807152165166218918
+      terrain-v7_36: -5733794927764246261
+      terrain-v7_37: -1203956266355713110
+      terrain-v7_38: -8647886758330066909
+      terrain-v7_39: 8827482858984054619
+      terrain-v7_4: 8258399717919042784
+      terrain-v7_40: 8682713962017277179
+      terrain-v7_41: -2226240272171392568
+      terrain-v7_42: 2533227080772961568
+      terrain-v7_43: -72059703579823558
+      terrain-v7_44: -6198048974256029256
+      terrain-v7_45: -965763708296158537
+      terrain-v7_46: 2355824652100843170
+      terrain-v7_47: 9084560631270094800
+      terrain-v7_48: -3246403879931226289
+      terrain-v7_49: 3161928197618976854
+      terrain-v7_5: -1251656716411263141
+      terrain-v7_50: 8119057015028794050
+      terrain-v7_51: -1143574330447919990
+      terrain-v7_52: -6589889384126709836
+      terrain-v7_53: 5948782022783225105
+      terrain-v7_54: 1975813966332877184
+      terrain-v7_55: -2629558118700038593
+      terrain-v7_56: -7536631252569648172
+      terrain-v7_57: 2960757173955963867
+      terrain-v7_58: 84855461687635288
+      terrain-v7_59: 7297745909106340943
+      terrain-v7_6: 660542314714326581
+      terrain-v7_60: -8867776766553735712
+      terrain-v7_61: 5655869534468243974
+      terrain-v7_62: -7147071321167599768
+      terrain-v7_63: 2310814012901657997
+      terrain-v7_64: -6253464987367753295
+      terrain-v7_65: 672448928733089647
+      terrain-v7_66: 6632985866671037423
+      terrain-v7_67: 3019247665848702623
+      terrain-v7_68: 760811798058180492
+      terrain-v7_69: 476431994998351861
+      terrain-v7_7: -8560220918464467332
+      terrain-v7_70: 3751510845275383185
+      terrain-v7_71: 1993522957233666604
+      terrain-v7_72: 7531448498178095338
+      terrain-v7_73: 7285484400003387928
+      terrain-v7_74: -7851259002919697090
+      terrain-v7_75: 2461843654827712159
+      terrain-v7_76: 4373381897287697105
+      terrain-v7_77: -471606855613027961
+      terrain-v7_78: 8161449625962090243
+      terrain-v7_79: 4559202830622999496
+      terrain-v7_8: -7789746600062918690
+      terrain-v7_80: 1953650038833913453
+      terrain-v7_81: -4937153273188161731
+      terrain-v7_82: 8507815827632825543
+      terrain-v7_83: 5513810262182201951
+      terrain-v7_84: -3545468051093752008
+      terrain-v7_85: 5645953670490760327
+      terrain-v7_86: 5797333406530716458
+      terrain-v7_87: -7992328229354597550
+      terrain-v7_88: 466830440849115804
+      terrain-v7_89: 2555467480493507422
+      terrain-v7_9: 1217881900234849006
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 
