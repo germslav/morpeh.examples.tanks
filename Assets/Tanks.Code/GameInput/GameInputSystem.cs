@@ -1,41 +1,41 @@
 ﻿namespace Tanks.GameInput {
     using System;
     using Scellecs.Morpeh;
-    using Scellecs.Morpeh.Systems;
+
     using UnityEngine;
     using UnityEngine.InputSystem;
     using UnityEngine.InputSystem.Controls;
     using UnityEngine.InputSystem.LowLevel;
     using UnityEngine.InputSystem.Users;
 
-    [CreateAssetMenu(menuName = "ECS/Systems/" + nameof(GameInputSystem))]
-    public sealed class GameInputSystem : UpdateSystem {
+    public sealed class GameInputSystem : ISystem {
         private Action<InputControl, InputEventPtr> unpairedDeviceUsedDelegate;
 
-        private int userCounter;
-        private Filter users;
+        private int _userCounter;
+        private Filter _users;
+        private Stash<GameUser> _gameUsers;
 
-        public override void OnAwake() {
-            World.GetStash<GameUser>().AsDisposable();
-            users = World.Filter.With<GameUser>().Build();
-            userCounter = 0;
+        public World World { get; set; }
+
+        public void OnAwake() {
+            _gameUsers = World.GetStash<GameUser>().AsDisposable();
+            _users = World.Filter.With<GameUser>().Build();
+            _userCounter = 0;
 
             unpairedDeviceUsedDelegate = OnUnpairedDeviceUsed;
             ++InputUser.listenForUnpairedDeviceActivity;
             InputUser.onUnpairedDeviceUsed += unpairedDeviceUsedDelegate;
         }
 
-        public override void OnUpdate(float deltaTime) {
+        public void OnUpdate(float deltaTime) {
             InputSystem.Update();
         }
 
-        public override void Dispose() {
+        public void Dispose() {
             InputUser.onUnpairedDeviceUsed -= unpairedDeviceUsedDelegate;
             --InputUser.listenForUnpairedDeviceActivity;
 
-            foreach (Entity ent in users) {
-                ent.RemoveComponent<GameUser>();
-            }
+            _gameUsers.Dispose();
         }
 
         private void OnUnpairedDeviceUsed(InputControl control, InputEventPtr eventPtr) {
@@ -49,8 +49,8 @@
             }
 
             Entity userEntity = World.CreateEntity();
-            ref GameUser user = ref userEntity.AddComponent<GameUser>();
-            user.id = ++userCounter;
+            ref GameUser user = ref _gameUsers.Add(userEntity);
+            user.id = ++_userCounter;
             user.device = control.device;
             Debug.Log($"{user.device} (Id={user.id.ToString()}) connected!");
 
@@ -60,10 +60,6 @@
             user.user = InputUser.PerformPairingWithDevice(control.device);
             user.user.ActivateControlScheme(actions.CommonScheme);
             user.user.AssociateActionsWithUser(actions);
-        }
-
-        public static GameInputSystem Create() {
-            return CreateInstance<GameInputSystem>();
         }
     }
 }

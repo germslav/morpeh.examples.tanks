@@ -40,7 +40,7 @@
             var text = $"Team {winTeam.name} wins!";
             Debug.Log(text);
 
-            TextInWorldSystem.Request request = winMessageRequest;
+            Request request = winMessageRequest;
             request.color = winTeam.color;
             request.text = text;
 

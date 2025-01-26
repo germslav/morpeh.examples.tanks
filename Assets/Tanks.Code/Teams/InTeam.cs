@@ -3,17 +3,20 @@
     using Scellecs.Morpeh;
 
     [Serializable]
-    public struct InTeam : IComponent {
+    public struct InTeam : IComponent 
+    {
         public Entity team;
     }
 
-    public static class TeamExtensions {
-        public static bool InSameTeam(this Entity first, Entity second) {
+    public static class TeamExtensions 
+    {
+        public static bool InSameTeam(this Entity first, Entity second) 
+        {
             var world = first.GetWorld();
             var stash = world.GetStash<InTeam>();
 
-            ref InTeam firstInTeam = ref stash.Get(first, out bool firstHasTeam);
-            ref InTeam secondInTeam = ref stash.Get(second, out bool secondHasTeam);
+            InTeam firstInTeam = stash.Get(first, out bool firstHasTeam);
+            InTeam secondInTeam = stash.Get(second, out bool secondHasTeam);
             if (!firstHasTeam || !secondHasTeam) {
                 return false;
             }

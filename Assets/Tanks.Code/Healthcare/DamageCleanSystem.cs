@@ -1,24 +1,27 @@
 ﻿namespace Tanks.Healthcare {
     using Scellecs.Morpeh;
-    using Scellecs.Morpeh.Systems;
-    using UnityEngine;
 
-    [CreateAssetMenu(menuName = "ECS/Systems/" + nameof(DamageCleanSystem))]
-    public sealed class DamageCleanSystem : LateUpdateSystem {
+    public sealed class DamageCleanSystem : ILateSystem 
+    {
         private Filter filter;
+        private Stash<DamageEvent> _stash;
 
-        public override void OnAwake() {
+        public World World { get; set; }
+
+        public void OnAwake() {
             filter = World.Filter.With<DamageEvent>().Build();
+            _stash = World.GetStash<DamageEvent>();
         }
 
-        public override void OnUpdate(float deltaTime) {
+        public void OnUpdate(float deltaTime) {
             foreach (Entity ent in filter) {
-                ent.RemoveComponent<DamageEvent>();
+                _stash.Remove(ent);
             }
         }
 
-        public static DamageCleanSystem Create() {
-            return CreateInstance<DamageCleanSystem>();
+        public void Dispose()
+        {
+
         }
     }
 }

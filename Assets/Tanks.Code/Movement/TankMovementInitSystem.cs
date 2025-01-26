@@ -1,19 +1,34 @@
 ﻿namespace Tanks.Movement {
     using Scellecs.Morpeh;
-    using Scellecs.Morpeh.Systems;
-    using UnityEngine;
+    using Unity.IL2CPP.CompilerServices;
 
-    [CreateAssetMenu(menuName = "ECS/Systems/" + nameof(TankMovementInitSystem))]
-    public sealed class TankMovementInitSystem : UpdateSystem {
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    public sealed class TankMovementInitSystem : ISystem 
+    {
         private Filter tanksNoMove;
+        private Stash<MoveDirection> _moveDirections;
 
-        public override void OnAwake() {
-            tanksNoMove = World.Filter.With<Tank>().Without<MoveDirection>().Build();
+        public World World { get; set; }
+
+        public void Dispose()
+        {
+
         }
 
-        public override void OnUpdate(float deltaTime) {
-            foreach (Entity ent in tanksNoMove) {
-                ent.AddComponent<MoveDirection>();
+        public void OnAwake() 
+        {
+            tanksNoMove = World.Filter.With<Tank>().Without<MoveDirection>().Build();
+
+            _moveDirections = World.GetStash<MoveDirection>();
+        }
+
+        public void OnUpdate(float deltaTime) 
+        {
+            foreach (Entity ent in tanksNoMove) 
+            {
+                _moveDirections.Add(ent);
             }
         }
     }

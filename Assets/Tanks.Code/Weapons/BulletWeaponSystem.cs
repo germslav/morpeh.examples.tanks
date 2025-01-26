@@ -2,10 +2,13 @@
 {
     using Collisions;
     using Scellecs.Morpeh;
-
+    using Unity.IL2CPP.CompilerServices;
     using UnityEngine;
 
-    public sealed class BulletWeaponSystem : IFixedSystem //SimpleFixedUpdateSystem<BulletWeapon, Tank> {
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    public sealed class BulletWeaponSystem : IFixedSystem
     {
         public World World { get; set; }
 

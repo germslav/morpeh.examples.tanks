@@ -26,8 +26,8 @@
         {
             foreach(var ent in _damagedHealth)
             {
-                var damage = _damageEvents.Get(ent);
-                var health = _healths.Get(ent);
+                ref var damage = ref _damageEvents.Get(ent);
+                ref var health = ref _healths.Get(ent);
 
                 if (damage.amount <= 0)
                 {

@@ -1,10 +1,9 @@
 ﻿namespace Tanks.Bases {
     using Scellecs.Morpeh;
-    using Scellecs.Morpeh.Systems;
+
     using Teams;
     using UnityEngine;
 
-    [CreateAssetMenu(menuName = "ECS/Systems/" + nameof(TeamBaseInitSystem))]
     public sealed class TeamBaseInitSystem : ISystem 
     {
         private Filter filter;
@@ -26,7 +25,6 @@
 
         public void Dispose()
         {
-            throw new System.NotImplementedException();
         }
 
         private struct InitializedMarker : IComponent { }

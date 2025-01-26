@@ -3,7 +3,6 @@
     using Scellecs.Morpeh;
 
     using UnityEngine;
-    using UnityEngine.EventSystems;
 
     public sealed class UserMovementSystem : ISystem //<MoveDirection, ControlledByUser> {
     {
@@ -24,7 +23,6 @@
 
         public void Dispose()
         {
-            throw new System.NotImplementedException();
         }
 
         public void OnUpdate(float deltaTime)

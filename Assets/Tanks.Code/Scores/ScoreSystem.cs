@@ -2,7 +2,7 @@
     using GameInput;
     using Helpers;
     using Scellecs.Morpeh;
-    using Scellecs.Morpeh.Systems;
+    using System.Linq;
     using Unity.IL2CPP.CompilerServices;
     using UnityEngine;
     using UtilSystems;
@@ -10,21 +10,40 @@
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    [CreateAssetMenu(menuName = "ECS/Systems/" + nameof(ScoreSystem))]
-    public sealed class ScoreSystem : LateUpdateSystem {
-        public TextInWorldSystem.Request killMessage;
-
+    public sealed class ScoreSystem : ILateSystem 
+    {
         private Filter usersToInit;
         private Filter killEvents;
 
-        public override void OnAwake() {
-            usersToInit = World.Filter.With<GameUser>().Without<UserScores>().Build();
-            killEvents = World.Filter.With<OneMoreKillEvent>().With<ControlledByUser>().Build();
+        private Stash<UserScores> _userScores;
+        private Stash<ControlledByUser> _controlledByUsers;
+        private Stash<Tank> _tanks;
+        private Stash<Request> _requests;
+        private Stash<MessagesData> _data;
+
+        public World World { get; set; }
+
+        public void Dispose()
+        {
         }
 
-        public override void OnUpdate(float deltaTime) {
-            foreach (Entity entity in usersToInit) {
-                entity.AddComponent<UserScores>();
+        public void OnAwake() 
+        {
+            usersToInit = World.Filter.With<GameUser>().Without<UserScores>().Build();
+            killEvents = World.Filter.With<OneMoreKillEvent>().With<ControlledByUser>().Build();
+
+            _userScores = World.GetStash<UserScores>();
+            _controlledByUsers = World.GetStash<ControlledByUser>();
+            _tanks = World.GetStash<Tank>();
+            _requests = World.GetStash<Request>();
+            _data = World.GetStash<MessagesData>();
+        }
+
+        public void OnUpdate(float deltaTime) 
+        {
+            foreach (Entity entity in usersToInit) 
+            {
+                _userScores.Add(entity);
             }
 
             World.Commit();
@@ -33,20 +52,21 @@
 
         private void ScoreKills() {
             foreach (Entity entity in killEvents) {
-                Entity userEntity = entity.GetComponent<ControlledByUser>().user;
-                ref UserScores scores = ref userEntity.GetComponent<UserScores>();
+                Entity userEntity = _controlledByUsers.Get(entity).user;
+                ref UserScores scores = ref _userScores.Add(userEntity);
                 scores.totalKills++;
 
-                ref Tank tank = ref entity.GetComponent<Tank>(out bool isTank);
+                ref Tank tank = ref _tanks.Get(entity, out bool isTank);
                 if (!isTank) {
                     Debug.LogError("Able to show kill messages only for Tanks!");
                     continue;
                 }
 
-                TextInWorldSystem.Request request = killMessage;
+                Request request = _data.data.First().KillMessage;
                 request.start = tank.body.position;
                 request.text = $"{scores.totalKills.ToString()} kills";
-                World.CreateEntity().SetComponent(request);
+
+                _requests.Add(World.CreateEntity(), in request);
             }
 
             killEvents.RemoveComponentForAll<OneMoreKillEvent>(World);

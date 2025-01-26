@@ -2,24 +2,37 @@
     using GameInput;
     using Scellecs.Morpeh;
     using Scellecs.Morpeh.Providers;
-    using Scellecs.Morpeh.Systems;
+
+    using System.Linq;
     using Teams;
     using UnityEngine;
 
-    [CreateAssetMenu(menuName = "ECS/Systems/" + nameof(GameUserTankCreateSystem))]
-    public sealed class GameUserTankCreateSystem : UpdateSystem {
-        public TankRepository tankRepository;
+    public sealed class GameUserTankCreateSystem : ISystem {
         private Filter filter;
 
-        public override void OnAwake() {
+        private Stash<UserWithTank> _userWithTanks;
+        private Stash<InTeam> _inTeams;
+        private Stash<ControlledByUser> _controlledByUser;
+        private Stash<Team> _teams;
+        private Stash<TankPrefabs> _tankPrefabs;
+
+        public World World { get; set; }
+
+        public void OnAwake() {
             filter = World.Filter.With<GameUser>().Without<UserWithTank>().Build();
+
+            _userWithTanks = World.GetStash<UserWithTank>();
+            _inTeams = World.GetStash<InTeam>();
+            _controlledByUser = World.GetStash<ControlledByUser>();
+            _teams = World.GetStash<Team>();
+            _tankPrefabs = World.GetStash<TankPrefabs>();
         }
 
-        public override void OnUpdate(float deltaTime) {
+        public void OnUpdate(float deltaTime) {
             foreach (Entity userEntity in filter) {
                 SpawnTankForUser(userEntity, out Entity tankEntity, out Transform tankTransform);
 
-                Entity teamEntity = userEntity.GetComponent<InTeam>(out bool isInTeam).team;
+                Entity teamEntity = _inTeams.Get(userEntity, out bool isInTeam).team;
                 if (isInTeam) {
                     AttachTankToTeam(tankEntity, tankTransform, teamEntity);
                 } else {
@@ -28,27 +41,29 @@
             }
         }
 
-        private void SpawnTankForUser(Entity userEntity, out Entity tankEntity, out Transform tankTransform) {
-            int tankIndex = Random.Range(0, tankRepository.prefabs.Length);
-            EntityProvider tankPrefab = tankRepository.prefabs[tankIndex];
-            EntityProvider tankInstance = Instantiate(tankPrefab);
+        private void SpawnTankForUser(Entity userEntity, out Entity tankEntity, out Transform tankTransform) 
+        {
+            var prefabs = _tankPrefabs.data.First().Data;
+            int tankIndex = Random.Range(0, prefabs.Length);
+            EntityProvider tankPrefab = prefabs[tankIndex];
+            EntityProvider tankInstance = GameObject.Instantiate(tankPrefab);
             tankEntity = tankInstance.Entity;
             tankTransform = tankInstance.transform;
-            userEntity.AddComponent<UserWithTank>().tank = tankEntity;
-            tankEntity.AddComponent<ControlledByUser>().user = userEntity;
+            _userWithTanks.Add(userEntity).tank = tankEntity;
+            _controlledByUser.Add(tankEntity).user = userEntity;
         }
 
-        private static void AttachTankToTeam(Entity tankEntity, Transform tankTransform, Entity teamEntity) {
-            ref Team team = ref teamEntity.GetComponent<Team>();
+        private void AttachTankToTeam(Entity tankEntity, Transform tankTransform, Entity teamEntity) {
+            ref Team team = ref _teams.Get(teamEntity);
             int spawnIndex = Random.Range(0, team.spawns.Length);
             Transform spawn = team.spawns[spawnIndex];
             tankTransform.position = spawn.position;
             tankTransform.rotation = spawn.rotation;
-            tankEntity.AddComponent<InTeam>().team = teamEntity;
+            _inTeams.Add(tankEntity).team = teamEntity;
         }
 
-        public static GameUserTankCreateSystem Create() {
-            return CreateInstance<GameUserTankCreateSystem>();
+        public void Dispose()
+        {
         }
     }
 }

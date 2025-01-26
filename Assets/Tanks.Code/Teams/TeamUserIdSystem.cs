@@ -1,7 +1,9 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace Tanks.Teams {
+namespace Tanks.Teams
+{
     using System;
+    using System.Linq;
     using GameInput;
     using Scellecs.Morpeh;
     using Scellecs.Morpeh.Systems;
@@ -11,10 +13,8 @@ namespace Tanks.Teams {
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    [CreateAssetMenu(menuName = "ECS/Systems/" + nameof(TeamUserIdSystem))]
     public sealed class TeamUserIdSystem : ILateSystem 
     {
-        public TextMesh userIdTextPrefab;
         private Filter tanksToDisplay;
         private Stash<UserIdText> _userIdTexts;
         private Stash<ControlledByUser> _controlledByUser;
@@ -22,6 +22,7 @@ namespace Tanks.Teams {
         private Stash<Tank> _tanks;
         private Stash<InTeam> _inTeam;
         private Stash<Team> _teams;
+        private Stash<UserIdTextPrefab> _textPrefabs;
         public World World { get; set; }
 
         public void OnAwake() {
@@ -31,6 +32,7 @@ namespace Tanks.Teams {
             _tanks = World.GetStash<Tank>();
             _inTeam = World.GetStash<InTeam>();
             _teams = World.GetStash<Team>();
+            _textPrefabs = World.GetStash<UserIdTextPrefab>();
 
             tanksToDisplay = World.Filter.With<Tank>().With<ControlledByUser>().Without<UserIdText>().Build();
         }
@@ -46,7 +48,8 @@ namespace Tanks.Teams {
                 ref GameUser user = ref _gameUser.Get(userEntity);
 
                 ref UserIdText userIdText = ref _userIdTexts.Add(tankEntity);
-                userIdText.text = GameObject.Instantiate(userIdTextPrefab, tank.body.transform);
+
+                userIdText.text = GameObject.Instantiate(_textPrefabs.data.First().go, tank.body.transform);
                 userIdText.text.GetComponent<Renderer>().sortingOrder = 10;
                 userIdText.text.transform.localPosition = tank.userTextOffset;
                 userIdText.text.text = $"#{user.id.ToString()}";

@@ -2,7 +2,6 @@
     using GameInput;
     using Scellecs.Morpeh;
 
-    using UnityEngine;
     using UnityEngine.InputSystem;
 
     public sealed class UserBulletWeaponSystem : ISystem

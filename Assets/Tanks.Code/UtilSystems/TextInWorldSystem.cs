@@ -11,7 +11,7 @@
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    [CreateAssetMenu(menuName = "ECS/Systems/" + nameof(TextInWorldSystem))]
+
     public sealed class TextInWorldSystem : ILateSystem
     {
         private readonly Stack<TextMesh> textMeshes = new Stack<TextMesh>(8);
@@ -103,28 +103,32 @@
 
             textMeshes.Clear();
         }
+    }
 
-        [Serializable]
-        public struct Request : IComponent {
-            [Required] public Font font;
-            public int fontSize;
-            public float charSize;
-            public Color color;
+    [Serializable]
+    public struct Request : IComponent
+    {
+        [Required] public Font font;
+        public int fontSize;
+        public float charSize;
+        public Color color;
 
-            [Space] public Vector3 start;
-            public string text;
-            public Vector3 velocity;
-            [Min(0.5f)] public float duration;
-        }
+        [Space] public Vector3 start;
+        public string text;
+        public Vector3 velocity;
+        [Min(0.5f)] public float duration;
+    }
 
-        private struct TextInWorld : IComponent {
-            public TextMesh mesh;
-            public Renderer renderer;
-            public float timeToDestroy;
-            public Vector3 velocity;
-        }
+    [Serializable]
+    public struct TextInWorld : IComponent
+    {
+        public TextMesh mesh;
+        public Renderer renderer;
+        public float timeToDestroy;
+        public Vector3 velocity;
     }
 }
+
 
 namespace Helpers
 {

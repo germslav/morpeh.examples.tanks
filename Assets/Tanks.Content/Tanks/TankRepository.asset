@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9710fa0903a4431789c6287529433a17, type: 3}
   m_Name: TankRepository
   m_EditorClassIdentifier: 
-  prefabs:
-  - {fileID: 7670821371945427196, guid: fd1b82de486e49d4b83eae47108f6c24, type: 3}
+  serializedData:
+    Data: []

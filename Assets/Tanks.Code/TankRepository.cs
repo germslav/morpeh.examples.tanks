@@ -1,9 +1,16 @@
 ﻿namespace Tanks {
+    using Scellecs.Morpeh;
     using Scellecs.Morpeh.Providers;
+    using System;
     using UnityEngine;
 
-    [CreateAssetMenu(fileName = "TankRepository", menuName = "Tanks/TankRepository", order = 0)]
-    public sealed class TankRepository : ScriptableObject {
-        public EntityProvider[] prefabs;
+    [Serializable]
+    public struct TankPrefabs : IComponent
+    {
+        public EntityProvider[] Data;
+    }
+
+    public sealed class TankRepository : MonoProvider<TankPrefabs> 
+    { 
     }
 }

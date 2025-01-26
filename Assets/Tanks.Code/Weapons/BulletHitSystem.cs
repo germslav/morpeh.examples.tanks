@@ -6,7 +6,7 @@
     using Teams;
     using UnityEngine;
 
-    public sealed class BulletHitSystem : IFixedSystem
+    public sealed class BulletHitSystem : ISystem
     {
         public World World { get; set; }
 
@@ -17,7 +17,7 @@
 
         public void Dispose()
         {
-            throw new System.NotImplementedException();
+
         }
 
         public void OnAwake()
@@ -35,13 +35,16 @@
             {
                 ref var colEv = ref _collisions.Get(ent);
                 Entity bulletEntity = colEv.first;
-                ref Bullet bullet = ref _bullets.Get(bulletEntity, out bool isBullet);
+
+                if (bulletEntity.IsDisposed()) continue;
+
+                Bullet bullet = _bullets.Get(bulletEntity, out bool isBullet);
                 if (!isBullet)
                 {
-                    return;
+                    continue;
                 }
 
-                if (colEv.second != null && !colEv.second.InSameTeam(bullet.shooter))
+                if (!colEv.second.IsDisposed() && colEv.second != null && !colEv.second.InSameTeam(bullet.shooter))
                 {
                     _damageEvents.Set(colEv.second, new DamageEvent
                     {

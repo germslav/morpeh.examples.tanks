@@ -5,7 +5,6 @@
     using Teams;
     using UnityEngine;
 
-    [CreateAssetMenu(menuName = "ECS/Systems/" + nameof(TeamBaseDestroySystem))]
     public sealed class TeamBaseDestroySystem : ISystem {
         public Color destroyedColor = Color.black;
 
@@ -19,7 +18,6 @@
 
         public void Dispose()
         {
-
         }
 
         public void OnAwake() {

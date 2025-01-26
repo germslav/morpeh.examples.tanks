@@ -3,7 +3,7 @@
 
     using UnityEngine;
 
-    public sealed class CollisionCleanSystem : ISystem
+    public sealed class CollisionCleanSystem : ILateSystem
     {
         public World World { get ; set; }
 
@@ -11,12 +11,11 @@
 
         public void Dispose()
         {
-            _filter = World.Filter.With<CollisionEvent>().Build();
         }
 
         public void OnAwake()
         {
-
+            _filter = World.Filter.With<CollisionEvent>().Build();
         }
 
         public void OnUpdate(float deltaTime)
