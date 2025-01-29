@@ -32,7 +32,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""type"": ""Value"",
                     ""id"": ""55774a20-f59f-43aa-9b48-7bb5af95ad1a"",
                     ""expectedControlType"": ""Vector2"",
-                    ""processors"": ""StickDeadzone"",
+                    ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
                 },
@@ -40,7 +40,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""name"": ""Fire"",
                     ""type"": ""Button"",
                     ""id"": ""0768c810-c4a1-46b2-80e4-d72cf1f05314"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -79,61 +79,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""Arrows"",
-                    ""id"": ""ae84944e-41ce-4805-ada1-3a953e049648"",
-                    ""path"": ""2DVector"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Movement"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""up"",
-                    ""id"": ""5684f857-a14d-45c1-b3f3-e41313dfc80c"",
-                    ""path"": ""<Keyboard>/upArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Common"",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""down"",
-                    ""id"": ""6cdc58b8-f0ae-47c7-a079-b4e227abe359"",
-                    ""path"": ""<Keyboard>/downArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Common"",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""left"",
-                    ""id"": ""6e37eeb0-37d8-4319-90d4-0a76699727b1"",
-                    ""path"": ""<Keyboard>/leftArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Common"",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""right"",
-                    ""id"": ""d8887bd9-6f78-4d65-8691-b46c1f6baf75"",
-                    ""path"": ""<Keyboard>/rightArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Common"",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
                 },
                 {
                     ""name"": ""WASD"",
@@ -192,17 +137,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""c34661ba-4e04-4db7-9ecf-deb54e8965dc"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Common"",
-                    ""action"": ""Fire"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""a4845be0-cca8-4384-8c0d-8badd0e0939c"",
                     ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
@@ -211,14 +145,128 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Fire"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Tank1"",
+            ""id"": ""c68a09f4-7e20-4393-8bb7-249d98efaed2"",
+            ""actions"": [
+                {
+                    ""name"": ""Movement"",
+                    ""type"": ""Value"",
+                    ""id"": ""cc2cb70d-d83f-48bc-af70-c717be3c1c66"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 },
                 {
+                    ""name"": ""Fire"",
+                    ""type"": ""Button"",
+                    ""id"": ""c08eff3a-16bd-4d38-871d-c646eade3afe"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
                     ""name"": """",
-                    ""id"": ""16e3a898-edd0-4150-94a2-8df86cda7ffb"",
-                    ""path"": ""<Joystick>/trigger"",
+                    ""id"": ""b5db778f-fab9-4ffe-a030-966321875aff"",
+                    ""path"": ""<Joystick>/stick"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Common"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""69e68e03-6def-483d-bf6e-a4223a968d18"",
+                    ""path"": ""<Gamepad>/dpad"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Common"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f750fd12-4955-4ec7-97cd-0c6c8ffad8b7"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Common"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Arrows"",
+                    ""id"": ""4b49514c-8596-4439-8f3c-2c87d6385258"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""a8d47037-4472-431f-af12-9b6f49626beb"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Common"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""b467b997-59e9-4b1c-8e20-2c4ecd102027"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Common"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""82931966-d4f2-444e-8de4-237de407750e"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Common"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""9dcec7b0-95cb-4197-87a3-7ee0e568bc58"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Common"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""aa8cd170-396b-4691-91f1-3bef12490f41"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Common"",
                     ""action"": ""Fire"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -254,11 +302,16 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Tank = asset.FindActionMap("Tank", throwIfNotFound: true);
         m_Tank_Movement = m_Tank.FindAction("Movement", throwIfNotFound: true);
         m_Tank_Fire = m_Tank.FindAction("Fire", throwIfNotFound: true);
+        // Tank1
+        m_Tank1 = asset.FindActionMap("Tank1", throwIfNotFound: true);
+        m_Tank1_Movement = m_Tank1.FindAction("Movement", throwIfNotFound: true);
+        m_Tank1_Fire = m_Tank1.FindAction("Fire", throwIfNotFound: true);
     }
 
     ~@InputActions()
     {
         UnityEngine.Debug.Assert(!m_Tank.enabled, "This will cause a leak and performance issues, InputActions.Tank.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_Tank1.enabled, "This will cause a leak and performance issues, InputActions.Tank1.Disable() has not been called.");
     }
 
     public void Dispose()
@@ -370,6 +423,60 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         }
     }
     public TankActions @Tank => new TankActions(this);
+
+    // Tank1
+    private readonly InputActionMap m_Tank1;
+    private List<ITank1Actions> m_Tank1ActionsCallbackInterfaces = new List<ITank1Actions>();
+    private readonly InputAction m_Tank1_Movement;
+    private readonly InputAction m_Tank1_Fire;
+    public struct Tank1Actions
+    {
+        private @InputActions m_Wrapper;
+        public Tank1Actions(@InputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Movement => m_Wrapper.m_Tank1_Movement;
+        public InputAction @Fire => m_Wrapper.m_Tank1_Fire;
+        public InputActionMap Get() { return m_Wrapper.m_Tank1; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(Tank1Actions set) { return set.Get(); }
+        public void AddCallbacks(ITank1Actions instance)
+        {
+            if (instance == null || m_Wrapper.m_Tank1ActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_Tank1ActionsCallbackInterfaces.Add(instance);
+            @Movement.started += instance.OnMovement;
+            @Movement.performed += instance.OnMovement;
+            @Movement.canceled += instance.OnMovement;
+            @Fire.started += instance.OnFire;
+            @Fire.performed += instance.OnFire;
+            @Fire.canceled += instance.OnFire;
+        }
+
+        private void UnregisterCallbacks(ITank1Actions instance)
+        {
+            @Movement.started -= instance.OnMovement;
+            @Movement.performed -= instance.OnMovement;
+            @Movement.canceled -= instance.OnMovement;
+            @Fire.started -= instance.OnFire;
+            @Fire.performed -= instance.OnFire;
+            @Fire.canceled -= instance.OnFire;
+        }
+
+        public void RemoveCallbacks(ITank1Actions instance)
+        {
+            if (m_Wrapper.m_Tank1ActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(ITank1Actions instance)
+        {
+            foreach (var item in m_Wrapper.m_Tank1ActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_Tank1ActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public Tank1Actions @Tank1 => new Tank1Actions(this);
     private int m_CommonSchemeIndex = -1;
     public InputControlScheme CommonScheme
     {
@@ -380,6 +487,11 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         }
     }
     public interface ITankActions
+    {
+        void OnMovement(InputAction.CallbackContext context);
+        void OnFire(InputAction.CallbackContext context);
+    }
+    public interface ITank1Actions
     {
         void OnMovement(InputAction.CallbackContext context);
         void OnFire(InputAction.CallbackContext context);

@@ -6,13 +6,13 @@
 
     [Serializable]
     public struct GameUser : IComponent, IDisposable {
-        public InputDevice device;
-        public InputActions inputActions;
+        public InputActions InputActions;
+        public InputActionMap inputActionsMap;
         public InputUser user;
         public int id;
 
         public void Dispose() {
-            inputActions?.Disable();
+            InputActions?.Disable();
 
             if (!user.valid) {
                 return;

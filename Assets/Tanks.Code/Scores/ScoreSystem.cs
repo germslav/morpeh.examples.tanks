@@ -53,7 +53,7 @@
         private void ScoreKills() {
             foreach (Entity entity in killEvents) {
                 Entity userEntity = _controlledByUsers.Get(entity).user;
-                ref UserScores scores = ref _userScores.Add(userEntity);
+                ref UserScores scores = ref _userScores.Get(userEntity);
                 scores.totalKills++;
 
                 ref Tank tank = ref _tanks.Get(entity, out bool isTank);

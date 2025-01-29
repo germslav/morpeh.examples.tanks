@@ -35,7 +35,7 @@
 
                 if (direction.sqrMagnitude <= 0f)
                 {
-                    return;
+                    continue;
                 }
 
                 float angle = Vector2.SignedAngle(Vector2.up, direction);

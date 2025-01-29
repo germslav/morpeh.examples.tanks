@@ -35,7 +35,7 @@
                 ref var controller = ref _controlled.Get(ent);
                 ref var user = ref _users.Get(controller.user);
 
-                InputActionPhase actionPhase = user.inputActions.Tank.Fire.phase;
+                InputActionPhase actionPhase = user.inputActionsMap.FindAction("Fire").phase;
                 weapon.shoot = actionPhase == InputActionPhase.Started || actionPhase == InputActionPhase.Performed;
             }
         }

@@ -27,21 +27,22 @@ public class Startup : MonoBehaviour
 
         // Добавляем ваши системы
         var systemsGroup = this.world.CreateSystemsGroup();
+
+        systemsGroup.AddSystem(new GameUserBalanceTeamSystem());
         systemsGroup.AddSystem(new TeamBaseInitSystem());
         systemsGroup.AddSystem(new TeamBaseDestroySystem());
         systemsGroup.AddSystem(new CollisionCleanSystem());
-        systemsGroup.AddSystem(new GameUserTankCreateSystem());
         systemsGroup.AddSystem(new GameInputSystem());
+        systemsGroup.AddSystem(new GameUserTankCreateSystem());
         systemsGroup.AddSystem(new DamageCleanSystem());
         systemsGroup.AddSystem(new DamageSystem());
         systemsGroup.AddSystem(new DamageTextSystem());
         systemsGroup.AddSystem(new TankDestroySystem());
         systemsGroup.AddSystem(new TankMovementInitSystem());
         systemsGroup.AddSystem(new MovementSystem());
+        systemsGroup.AddSystem(new TeamUserIdSystem());
         systemsGroup.AddSystem(new UserMovementSystem());
         systemsGroup.AddSystem(new ScoreSystem());
-        systemsGroup.AddSystem(new GameUserBalanceTeamSystem());
-        systemsGroup.AddSystem(new TeamUserIdSystem());
         systemsGroup.AddSystem(new WinDetectSystem());
         systemsGroup.AddSystem(new TextInWorldSystem());
         systemsGroup.AddSystem(new WallDestroySystem());

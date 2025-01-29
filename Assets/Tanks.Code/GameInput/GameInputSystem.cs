@@ -1,65 +1,58 @@
-﻿namespace Tanks.GameInput {
-    using System;
-    using Scellecs.Morpeh;
+﻿using Scellecs.Morpeh;
+using Tanks.GameInput;
+using UnityEngine;
+using UnityEngine.InputSystem;
 
-    using UnityEngine;
-    using UnityEngine.InputSystem;
-    using UnityEngine.InputSystem.Controls;
-    using UnityEngine.InputSystem.LowLevel;
-    using UnityEngine.InputSystem.Users;
+public sealed class GameInputSystem : ISystem
+{
+    private int _userCounter;
+    private Filter _users;
+    private Stash<GameUser> _gameUsers;
 
-    public sealed class GameInputSystem : ISystem {
-        private Action<InputControl, InputEventPtr> unpairedDeviceUsedDelegate;
+    private InputActions _inputActions; // Основной InputActions
 
-        private int _userCounter;
-        private Filter _users;
-        private Stash<GameUser> _gameUsers;
+    public World World { get; set; }
 
-        public World World { get; set; }
+    public void OnAwake()
+    {
+        _gameUsers = World.GetStash<GameUser>().AsDisposable();
+        _users = World.Filter.With<GameUser>().Build();
+        _userCounter = 0;
 
-        public void OnAwake() {
-            _gameUsers = World.GetStash<GameUser>().AsDisposable();
-            _users = World.Filter.With<GameUser>().Build();
-            _userCounter = 0;
+        // Создаём общий InputActions
+        _inputActions = new InputActions();
+        _inputActions.Tank.Enable(); // Включаем управление для Player1
+        _inputActions.Tank1.Enable(); // Включаем управление для Player2
 
-            unpairedDeviceUsedDelegate = OnUnpairedDeviceUsed;
-            ++InputUser.listenForUnpairedDeviceActivity;
-            InputUser.onUnpairedDeviceUsed += unpairedDeviceUsedDelegate;
+        // Добавляем игроков с разными ActionMap
+        AddKeyboardPlayer("Player 1", _inputActions.Tank);
+        AddKeyboardPlayer("Player 2", _inputActions.Tank1);
+    }
+
+    public void OnUpdate(float deltaTime)
+    {
+        InputSystem.Update(); // Обновляем систему ввода
+
+        // Проверяем ввод для каждого игрока
+        foreach (var entity in _users)
+        {
+            ref var user = ref _gameUsers.Get(entity);
         }
+    }
 
-        public void OnUpdate(float deltaTime) {
-            InputSystem.Update();
-        }
+    public void Dispose()
+    {
+        _gameUsers.Dispose();
+    }
 
-        public void Dispose() {
-            InputUser.onUnpairedDeviceUsed -= unpairedDeviceUsedDelegate;
-            --InputUser.listenForUnpairedDeviceActivity;
+    private void AddKeyboardPlayer(string playerName, InputActionMap actionMap)
+    {
+        Entity userEntity = World.CreateEntity();
+        ref GameUser user = ref _gameUsers.Add(userEntity);
+        user.id = ++_userCounter;
+        user.InputActions = _inputActions;
+        user.inputActionsMap = actionMap;       // Уникальный ActionMap для игрока
 
-            _gameUsers.Dispose();
-        }
-
-        private void OnUnpairedDeviceUsed(InputControl control, InputEventPtr eventPtr) {
-            if (!(control is ButtonControl)) {
-                return;
-            }
-
-            var actions = new InputActions();
-            if (!actions.CommonScheme.SupportsDevice(control.device)) {
-                return;
-            }
-
-            Entity userEntity = World.CreateEntity();
-            ref GameUser user = ref _gameUsers.Add(userEntity);
-            user.id = ++_userCounter;
-            user.device = control.device;
-            Debug.Log($"{user.device} (Id={user.id.ToString()}) connected!");
-
-            user.inputActions = actions;
-            user.inputActions.Enable();
-
-            user.user = InputUser.PerformPairingWithDevice(control.device);
-            user.user.ActivateControlScheme(actions.CommonScheme);
-            user.user.AssociateActionsWithUser(actions);
-        }
+        Debug.Log($"{playerName} added with controls: {actionMap.name}");
     }
 }

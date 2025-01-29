@@ -33,8 +33,7 @@
                 ref var direction = ref _moveDirections.Get(ent);
                 ref var user = ref _gameUsers.Get(controlled.user);
 
-                InputActions inputActions = user.inputActions;
-                direction.direction = inputActions.Tank.Movement.ReadValue<Vector2>();
+                direction.direction = user.inputActionsMap.FindAction("Movement").ReadValue<Vector2>();
             }
         }
     }
